@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1119</width>
-    <height>788</height>
+    <width>939</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -64,7 +64,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPlainTextEdit" name="taskTextEdit">
+       <widget class="QPlainTextEdit" name="plainTextEdit">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -95,7 +95,7 @@
          <bool>true</bool>
         </property>
         <property name="plainText">
-         <string>Здесь будет ответ</string>
+         <string>Здесь будет ответ...</string>
         </property>
        </widget>
       </item>
@@ -161,12 +161,48 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1119</width>
+     <width>939</width>
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Тесты</string>
+    </property>
+    <addaction name="start_tests"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="tearOffEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Информация</string>
+    </property>
+    <property name="separatorsCollapsible">
+     <bool>false</bool>
+    </property>
+    <addaction name="about_author"/>
+    <addaction name="about_qt"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="start_tests">
+   <property name="text">
+    <string>Запустить тесты</string>
+   </property>
+  </action>
+  <action name="about_author">
+   <property name="text">
+    <string>Об авторе</string>
+   </property>
+  </action>
+  <action name="about_qt">
+   <property name="text">
+    <string>Сведения о Qt</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

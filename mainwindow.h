@@ -39,6 +39,12 @@ private slots:
 
     void handleInputFromKeyboard(const QString &input);
 
+    void on_start_tests_triggered();
+
+    void on_about_author_triggered();
+
+    void on_about_qt_triggered();
+
 private:
     Ui::MainWindow *ui;
     vector<Data> *dataObjVec;

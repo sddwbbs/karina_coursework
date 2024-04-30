@@ -150,3 +150,18 @@ bool MainWindow::loadFromFile(const QString &fileName)
     return true;
 }
 
+void MainWindow::on_start_tests_triggered()
+{
+
+}
+
+void MainWindow::on_about_author_triggered()
+{
+    QMessageBox::about(this, "Автор", "Евдокимова Карина Владимировна");
+}
+
+void MainWindow::on_about_qt_triggered()
+{
+    QMessageBox::aboutQt(this, "Qt");
+}
+
