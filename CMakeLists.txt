@@ -40,6 +40,7 @@ else()
             ${PROJECT_SOURCES}
             data.h data.cpp
             inputfromkeyboardwindow.h inputfromkeyboardwindow.cpp inputfromkeyboardwindow.ui
+            tests.h tests.cpp tests.ui
         )
     endif()
 endif()

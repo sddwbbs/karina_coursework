@@ -152,7 +152,8 @@ bool MainWindow::loadFromFile(const QString &fileName)
 
 void MainWindow::on_start_tests_triggered()
 {
-
+    Tests *testsWnd = new Tests(this);
+    testsWnd->show();
 }
 
 void MainWindow::on_about_author_triggered()

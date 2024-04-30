@@ -11,6 +11,7 @@
 
 #include "data.h"
 #include "inputfromkeyboardwindow.h"
+#include "tests.h"
 
 using std::string;
 using std::vector;
