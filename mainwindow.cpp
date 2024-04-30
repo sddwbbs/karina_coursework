@@ -86,17 +86,22 @@ bool MainWindow::loadFromFile(const QString &fileName)
     myFileInput.seekg(0);
 
     std::string segment;
-    while (std::getline(myFileInput, segment, delim)) {
-        Data dataObj;
-        std::istringstream segStream(segment);
-        std::string hh, mm, ss;
-        std::getline(segStream, hh, ':');
-        std::getline(segStream, mm, ':');
-        std::getline(segStream, ss, ':');
-        dataObj.setHours(std::stoi(hh));
-        dataObj.setMinutes(std::stoi(mm));
-        dataObj.setSeconds(std::stoi(ss));
-        dataObjVec->push_back(dataObj);
+    try {
+        while (std::getline(myFileInput, segment, delim)) {
+            Data dataObj;
+            std::istringstream segStream(segment);
+            std::string hh, mm, ss;
+            std::getline(segStream, hh, ':');
+            std::getline(segStream, mm, ':');
+            std::getline(segStream, ss, ':');
+            dataObj.setHours(std::stoi(hh));
+            dataObj.setMinutes(std::stoi(mm));
+            dataObj.setSeconds(std::stoi(ss));
+            dataObjVec->push_back(dataObj);
+        }
+    } catch (const std::invalid_argument& e) {
+        QMessageBox::critical(this, "Ошибка", "Ошибка при чтении файла: недопустимые данные в строке.");
+        return false;
     }
 
     return true;
