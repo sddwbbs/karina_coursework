@@ -33,11 +33,20 @@ void MainWindow::on_inputFromFileBtn_clicked()
 
 void MainWindow::on_inputFromKeyboardBtn_clicked()
 {
-
+    QString inputFromKeyboard;
+    InputFromKeyboardWindow *inputWnd = new InputFromKeyboardWindow(this);
+    connect(inputWnd, &InputFromKeyboardWindow::inputEntered, this, &MainWindow::handleInputFromKeyboard);
+    inputWnd->show();
 }
 
 void MainWindow::on_getAnswerBtn_clicked()
 {
+    if (dataObjVec->empty())
+    {
+        QMessageBox::warning(this, "Внимание", "Сначала загрузите входные данные");
+        return;
+    }
+
     int midday = 12 * 3600;
     Data closest(0, 0, 0);
     int counter = 0;
@@ -66,6 +75,40 @@ void MainWindow::on_getAnswerBtn_clicked()
                                         + QString::number(closest.getMinutes())
                                         + ':'
                                         + QString::number(closest.getSeconds()));
+
+    dataObjVec->clear();
+}
+
+void MainWindow::handleInputFromKeyboard(const QString &input)
+{
+    char delim = '\n';
+
+    std::string inputStr = input.toStdString();
+
+    std::istringstream inputStream(inputStr);
+    std::string line;
+
+    while (std::getline(inputStream, line, delim)) {
+        std::istringstream lineStream(line);
+        std::string hh, mm, ss;
+
+        try {
+            std::getline(lineStream, hh, ':');
+            std::getline(lineStream, mm, ':');
+            std::getline(lineStream, ss, ':');
+
+            Data dataObj;
+            dataObj.setHours(std::stoi(hh));
+            dataObj.setMinutes(std::stoi(mm));
+            dataObj.setSeconds(std::stoi(ss));
+            dataObjVec->push_back(dataObj);
+        } catch (const std::invalid_argument& e) {
+            QMessageBox::critical(this, "Ошибка", "Ошибка при обработке входных данных: недопустимые данные в строке.");
+            return;
+        }
+    }
+
+    ui->statusbar->showMessage("Данные успешно загружены", 1500);
 }
 
 bool MainWindow::loadFromFile(const QString &fileName)

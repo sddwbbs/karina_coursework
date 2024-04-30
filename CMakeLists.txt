@@ -39,6 +39,7 @@ else()
         add_executable(karina_coursework
             ${PROJECT_SOURCES}
             data.h data.cpp
+            inputfromkeyboardwindow.h inputfromkeyboardwindow.cpp inputfromkeyboardwindow.ui
         )
     endif()
 endif()

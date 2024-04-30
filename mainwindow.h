@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "data.h"
+#include "inputfromkeyboardwindow.h"
 
 using std::string;
 using std::vector;
@@ -26,6 +27,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -35,9 +37,12 @@ private slots:
 
     void on_getAnswerBtn_clicked();
 
+    void handleInputFromKeyboard(const QString &input);
+
 private:
     Ui::MainWindow *ui;
     vector<Data> *dataObjVec;
+    InputFromKeyboardWindow *inputWnd;
 
     bool loadFromFile(const QString &fileName);
 };
