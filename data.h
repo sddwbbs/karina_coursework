@@ -11,7 +11,7 @@ public:
 
     explicit Data(int hours, int minutes, int seconds);
 
-    int toSeconds(const Data &dataObj) const;
+    int toSeconds() const;
 
     void setHours(int hours);
 
@@ -19,11 +19,11 @@ public:
 
     void setSeconds(int seconds);
 
-    int getHours();
+    int getHours() const;
 
-    int getMinutes();
+    int getMinutes() const;
 
-    int getSeconds();
+    int getSeconds() const;
 };
 
 #endif // DATA_H

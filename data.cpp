@@ -3,9 +3,9 @@
 Data::Data(int hours, int minutes, int seconds)
     : hours(hours), minutes(minutes), seconds(seconds) {}
 
-int Data::toSeconds(const Data &dataObj) const
+int Data::toSeconds() const
 {
-    int result = dataObj.hours * 3600 + dataObj.minutes * 60 + dataObj.seconds;
+    int result = hours * 3600 + minutes * 60 + seconds;
     return result;
 }
 
@@ -24,17 +24,17 @@ void Data::setSeconds(int seconds)
     this->seconds = seconds;
 }
 
-int Data::getHours()
+int Data::getHours() const
 {
     return hours;
 }
 
-int Data::getMinutes()
+int Data::getMinutes() const
 {
     return minutes;
 }
 
-int Data::getSeconds()
+int Data::getSeconds() const
 {
     return seconds;
 }
