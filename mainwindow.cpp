@@ -23,7 +23,7 @@ void MainWindow::on_inputFromFileBtn_clicked()
     QFileDialog *fDialog = new QFileDialog(this);
     fDialog->setAttribute(Qt::WA_DeleteOnClose);
 
-    QString fileName = fDialog->getOpenFileName(this, tr("Open Document"), QDir::cleanPath("../karina_coursework/"),
+    QString fileName = fDialog->getOpenFileName(this, tr("Open Document"), QDir::cleanPath("../"),
                                                 "Text Files (*.txt *.db)", nullptr, QFileDialog::DontUseNativeDialog);
 
     if (fileName.isEmpty()) return;

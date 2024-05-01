@@ -26,7 +26,7 @@ void Tests::on_closeBtn_clicked()
 
 bool Tests::loadFromFile()
 {
-    std::ifstream myFileInput("../karina_coursework/tests/tests.txt");
+    std::ifstream myFileInput("../tests/tests.txt");
     if (!myFileInput.is_open()) {
         QMessageBox::critical(this, "Ошибка", "Ошибка открытия файла");
         return false;
