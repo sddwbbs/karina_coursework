@@ -5,6 +5,7 @@ Tests::Tests(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Tests)
     , testObjVec(new vector<Data>)
+    , allChecksPassed(true)
 {
     ui->setupUi(this);
     setWindowTitle("Тесты");
@@ -30,46 +31,60 @@ bool Tests::loadFromFile()
         return false;
     }
 
-    std::string line;
-    std::string testName;
-    std::vector<std::string> testInput;
-    std::string expectedOutput;
+    string line;
+    string testName;
+    vector<Data> testObjVec;
+    string expectedOutput;
 
     while (std::getline(myFileInput, line)) {
-        if (line.empty()) continue; // Пропускаем пустые строки
+        if (line.empty()) continue;
 
-        if (line.find("expected_output") != std::string::npos) {
-            // Нашли строку с ожидаемым выводом, сохраняем его
-            expectedOutput = line.substr(line.find("=") + 1);
-        } else if (line.find("test_") != std::string::npos) {
-            // Нашли строку с названием теста, добавляем предыдущий тест (если есть) и начинаем новый
-            if (!testName.empty() && !testInput.empty()) {
-                processTest(testName, testInput, expectedOutput);
-                testInput.clear();
-            }
+        if (line.find("expected_output") != string::npos) {
+            expectedOutput = line.substr(line.find("=") + 2);
+        } else if (line.find("test_") != string::npos) {
             testName = line;
         } else {
-            // Строка с временем, добавляем ее в текущий тест
-            testInput.push_back(line);
+            std::istringstream lineStream(line);
+            string hh, mm, ss;
+            try {
+                std::getline(lineStream, hh, ':');
+                std::getline(lineStream, mm, ':');
+                std::getline(lineStream, ss, ':');
+
+                Data testObj;
+                testObj.setHours(std::stoi(hh));
+                testObj.setMinutes(std::stoi(mm));
+                testObj.setSeconds(std::stoi(ss));
+                testObjVec.push_back(testObj);
+            } catch (const std::invalid_argument& e) {
+                QMessageBox::critical(this, "Ошибка", "Ошибка при обработке входных данных: недопустимые данные в строке.");
+                return false;
+            }
+        }
+
+        if (!expectedOutput.empty()) {
+            processTest(testName, testObjVec, expectedOutput);
+            testName = "";
+            testObjVec.clear();
+            expectedOutput = "";
         }
     }
 
-    // Обрабатываем последний тест (если есть)
-    if (!testName.empty() && !testInput.empty()) {
-        processTest(testName, testInput, expectedOutput);
-    }
-
     myFileInput.close();
+
+    if (allChecksPassed) ui->testsTextEdit->appendPlainText("All checks have been passed!");
+    else ui->testsTextEdit->appendPlainText("Not all checks have been passed :(");
+
     return true;
 }
 
-void Tests::processTest(const string &testName, const vector<string> &testInput, const string &expectedOutput)
+void Tests::processTest(const string &testName, const vector<Data> &testObjVec, const string &expectedOutput)
 {
     int midday = 12 * 3600;
-    Data closest(0, 0, 0);
+    Data closest(-1, -1, -1);
     int counter = 0;
 
-    for (auto &elem : *testObjVec)
+    for (auto &elem : testObjVec)
     {
         if (elem.getHours() >= 0
             && elem.getHours() <= 24
@@ -85,26 +100,33 @@ void Tests::processTest(const string &testName, const vector<string> &testInput,
     }
 
     QString result = QString("Test Name: %1\nTest Input:\n").arg(QString::fromStdString(testName));
-    for (const auto &input : testInput) {
-        result += QString::fromStdString(input) + "\n";
+    for (const auto &input : testObjVec) {
+        result += QString::number(input.getHours())
+                  + ':'
+                  + QString::number(input.getMinutes())
+                  + ':'
+                  + QString::number(input.getSeconds())
+                  + '\n';
     }
     result += QString("Expected Output: %1\n").arg(QString::fromStdString(expectedOutput));
+    result += QString("Test passed with %1 valid elements\n").arg(QString::number(counter));
 
-    // Здесь формируется actualOutput на основе результатов вашей проверки
     string actualOutput;
-    if (counter > 0) {
-        actualOutput = "Test passed with " + std::to_string(counter) + " valid elements.";
-    } else {
-        actualOutput = "Test failed: no valid elements found.";
-    }
+    actualOutput = std::to_string(counter) + ';'
+                   + std::to_string(closest.getHours())
+                   + ':'
+                   + std::to_string(closest.getMinutes())
+                   + ':'
+                   + std::to_string(closest.getSeconds());
+    result += QString("Actual output: %1\n").arg(QString::fromStdString(actualOutput));
 
-    // Проверяем, прошел ли тест
     bool passed = (expectedOutput == actualOutput);
+    if (!passed) allChecksPassed = false;
 
     if (passed) {
-        result += "Result: Passed\n\n";
+        result += "Result: PASSED\n\n";
     } else {
-        result += "Result: Failed\n\n";
+        result += "Result: FAILED\n\n";
     }
 
     ui->testsTextEdit->appendPlainText(result);

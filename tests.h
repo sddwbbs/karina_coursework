@@ -31,10 +31,11 @@ private slots:
 private:
     Ui::Tests *ui;
     vector<Data> *testObjVec;
+    bool allChecksPassed;
 
     bool loadFromFile();
 
-    void processTest(const string &testName, const vector<string> &testInput, const string &expectedOutput);
+    void processTest(const string &testName, const vector<Data> &testObjVec, const string &expectedOutput);
 };
 
 #endif // TESTS_H
