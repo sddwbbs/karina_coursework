@@ -10,6 +10,7 @@ Tests::Tests(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle("Тесты");
 
+    this->resize(400, 700);
     loadFromFile();
 }
 

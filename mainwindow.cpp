@@ -158,7 +158,7 @@ void MainWindow::on_start_tests_triggered()
 
 void MainWindow::on_about_author_triggered()
 {
-    QMessageBox::about(this, "Автор", "Евдокимова Карина Владимировна");
+    QMessageBox::about(this, "Автор", "Выполнила: Евдокимова Карина Владимировна");
 }
 
 void MainWindow::on_about_qt_triggered()
