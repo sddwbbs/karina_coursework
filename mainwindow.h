@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QSettings>
 #include <QMessageBox>
 #include <fstream>
 #include <sstream>
@@ -52,5 +53,9 @@ private:
     InputFromKeyboardWindow *inputWnd;
 
     bool loadFromFile(const QString &fileName);
+
+    void readSettings();
+
+    void writeSettings();
 };
 #endif // MAINWINDOW_H

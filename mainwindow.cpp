@@ -8,10 +8,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle(" ");
+
+    readSettings();
 }
 
 MainWindow::~MainWindow()
 {
+    writeSettings();
     delete ui;
 }
 
@@ -165,4 +168,24 @@ void MainWindow::on_about_qt_triggered()
 {
     QMessageBox::aboutQt(this, "Qt");
 }
+
+void MainWindow::readSettings()
+{
+    QSettings settings("MySoft", "MyProgram");
+
+    settings.beginGroup("MainWindowGeometry");
+    resize(settings.value("size", QSize(600, 600)).toSize());
+    move(settings.value("position", QPoint(200, 200)).toPoint());
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings("MySoft", "MyProgram");
+
+    settings.beginGroup("MainWindowGeometry");
+    settings.setValue("size", size());
+    settings.setValue("position", pos());
+    settings.endGroup();
+}
+
 
