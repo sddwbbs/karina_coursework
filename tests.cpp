@@ -113,13 +113,18 @@ void Tests::processTest(const string &testName, const vector<Data> &testObjVec, 
     result += QString("Test passed with %1 valid elements\n").arg(QString::number(counter));
 
     string actualOutput;
-    actualOutput = std::to_string(counter) + ';'
-                   + std::to_string(closest.getHours())
-                   + ':'
-                   + std::to_string(closest.getMinutes())
-                   + ':'
-                   + std::to_string(closest.getSeconds());
-    result += QString("Actual output: %1\n").arg(QString::fromStdString(actualOutput));
+    if (!counter) {
+        actualOutput = "0;there is no correct data";
+        result += "there is no correct data\n";
+    } else {
+        actualOutput = std::to_string(counter) + ';'
+                       + std::to_string(closest.getHours())
+                       + ':'
+                       + std::to_string(closest.getMinutes())
+                       + ':'
+                       + std::to_string(closest.getSeconds());
+        result += QString("Actual output: %1\n").arg(QString::fromStdString(actualOutput));
+    }
 
     bool passed = (expectedOutput == actualOutput);
     if (!passed) allChecksPassed = false;

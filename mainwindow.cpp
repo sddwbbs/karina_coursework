@@ -70,14 +70,19 @@ void MainWindow::on_getAnswerBtn_clicked()
     }
 
     ui->answerTextEdit->clear();
-    ui->answerTextEdit->appendPlainText("Количество элементов удовлетворяющих условию: " + QString::number(counter)
-                                        + '\n'
-                                        + "Самое близкое к полудню время: "
-                                        + QString::number(closest.getHours())
-                                        + ':'
-                                        + QString::number(closest.getMinutes())
-                                        + ':'
-                                        + QString::number(closest.getSeconds()));
+
+    if (!counter) {
+        ui->answerTextEdit->appendPlainText("Нет подходящих элементов");
+    } else {
+        ui->answerTextEdit->appendPlainText("Количество элементов удовлетворяющих условию: " + QString::number(counter)
+                                            + '\n'
+                                            + "Самое близкое к полудню время: "
+                                            + QString::number(closest.getHours())
+                                            + ':'
+                                            + QString::number(closest.getMinutes())
+                                            + ':'
+                                            + QString::number(closest.getSeconds()));
+    }
 
     dataObjVec->clear();
 }
